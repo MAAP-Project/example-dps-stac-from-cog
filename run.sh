@@ -1,9 +1,14 @@
 #!/bin/bash
-
 # script for DPS algorithm.  
+
+
 basedir=$( cd "$(dirname "$0")" ; pwd -P)
 
-# create directory for the output. Used by src.py. 
+# create directory for the output. Used below for output. 
 mkdir -p "${PWD}/output"
 
-python ${basedir}/src.py $1
+# download the COG
+python ${basedir}/download.py $1 output/downloaded.tiff
+
+# produce the STAC item 
+rio stac output/downloaded.tiff --output output/item.json

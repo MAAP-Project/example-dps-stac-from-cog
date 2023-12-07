@@ -1,12 +1,12 @@
-# Example of AWS S3 access to DAAC buckets in MAAP DPS
+# Example of STAC item creation in a DPS algorithm
 
-This repository stores code for an example MAAP DPS algorithm that provides an example for two tasks : 
-- most importantly, the algorithm test AWS S3 DAAC buckets access by reading tiff or hdf5 files stored in these buckets. Access in this module relies on retrieving temporary credentials from the `maap-data-reader` role which was created for multi-DAAC access, and pass these credentials to the filesystem python client `fs` (which relies on `s3fs` for AWS S3).
-- the algorithm also provides an example of how to generate and discover DPS output. 
+This repository stores code for an example MAAP DPS algorithm that produces STAC metadata from a Cloud Optimized Geotiff file. For the purpose of providing an example, the data isn't processed at all and we are just downloading an already existing COG from a public S3 location provided by the user. 
+
+STAC item creation from the COG is automated using `rio-stac`.
 
 ## Structure
 
-- `src.py` contains the python module in itself.
+- `src.py` contains the python module in itself that downloads the file. 
 - `requirements.txt` lists the required python dependencies. 
 - `run.sh` see DPS usage below.
 - `algorithm_config.yml` see DPS usage below. 
@@ -17,7 +17,7 @@ This repository stores code for an example MAAP DPS algorithm that provides an e
 
 - python >=3.10
 - `requirements.txt`
-- authenticated to an AWS account and user with permissions to assume the `maap-data-reader` role. 
+- authenticated to an AWS account.
 
 ## Local usage
 
@@ -39,21 +39,11 @@ pip install -r requirements.txt
 
 ### Usage
 
-Here are a few examples of usage of the module, each example using a different DAAC bucket. From the root of the repository after the installation step : 
+Please make sure your AWS credentials are set up before running this command. 
 
 ```
-# NSIDC DAAC Access
-python src.py s3://nsidc-cumulus-prod-protected/ATLAS/ATL08/006/2023/06/21/ATL08_20230621235543_00272011_006_01.h5
-
-# ORNL DAAC Access
-python src.py s3://ornl-cumulus-prod-protected/gedi/GEDI_L4B_Gridded_Biomass/data/GEDI04_B_MW019MW138_02_002_05_R01000M_PS.tif
-
-# GES DISC Access
-python src.py s3://gesdisc-cumulus-prod-protected/Landslide/Global_Landslide_Nowcast.1.1/2020/Global_Landslide_Nowcast_v1.1_20201231.tif
-
-# LP DAAC Access
-python src.py s3://lp-prod-protected/HLSL30.020/HLS.L30.T56JMN.2023225T234225.v2.0/HLS.L30.T56JMN.2023225T234225.v2.0.B11.tif
- ```
+python download.py --download_from s3://sentinel-cogs/sentinel-s2-l2a-cogs/51/U/WR/2023/12/S2A_51UWR_20231207_0_L2A/TCI.tif --download_to /tmp/downloaded.tiff
+```
 
  ## DPS usage
 
@@ -67,4 +57,7 @@ And `run.sh` is the bash script that runs `src.py` and is an entrypoint required
 
 ### Discover output in DPS
 
-This algorithm creates a text file at the path described in `src.OUTPUT_FILE_PATH`. The purpose is to show how output is handled in a DPS job. The algorithm just writes a 'job succeeded' type of message in the text file, and, after a sucessful job, this text file can be found in a MAAP user's private bucket, in `dps_output`. 
+This algorithm stores the two following files in the output folder of the DPS job : 
+
+- the STAC item in JSON format
+- the downloaded tiff
