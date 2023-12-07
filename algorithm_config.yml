@@ -9,8 +9,7 @@ inputs:
   file: []
   positional:
   - default: ''
-    description: Full s3 path (starting with s3://) to the COG file you wish to catalog. Must be a COG and must
-    be accessible by the DPS runner. 
+    description: Full s3 path (starting with s3://) to the COG file you wish to catalog. Must be a COG and must be accessible by the DPS runner. 
     name: s3_path
     required: true
 queue: maap-dps-worker-32gb
