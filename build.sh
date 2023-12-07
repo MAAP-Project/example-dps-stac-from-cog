@@ -2,4 +2,4 @@
 
 basedir=$( cd "$(dirname "$0")" ; pwd -P)
 
-pip install -r ${basedir}/requirements.txt
+pip install rio_stac==0.8.1
