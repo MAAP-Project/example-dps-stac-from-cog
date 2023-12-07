@@ -1,0 +1,6 @@
+identifier: "test with output"
+algo_id: "daac-access-example"
+version: "main"
+username: "emileten"
+queue: "maap-dps-worker-32gb"
+s3_path: "s3://lp-prod-protected/HLSL30.020/HLS.L30.T56JMN.2023225T234225.v2.0/HLS.L30.T56JMN.2023225T234225.v2.0.B11.tif"

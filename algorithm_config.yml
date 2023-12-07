@@ -1,0 +1,18 @@
+algorithm_description: example DAAC access in DPS
+algorithm_name: daac-access-example
+algorithm_version: main
+build_command: example-dps-daac-access/build.sh
+disk_space: 1GB
+docker_container_url: mas.maap-project.org/root/maap-workspaces/base_images/vanilla:v3.1.1
+inputs:
+  config: []
+  file: []
+  positional:
+  - default: ''
+    description: Full s3 path (starting with s3://) to the file you wish to test access
+      to. Must be either a .tif or .h5 file.
+    name: s3_path
+    required: true
+queue: maap-dps-worker-32gb
+repository_url: https://github.com/MAAP-Project/example-dps-daac-access.git
+run_command: example-dps-daac-access/run.sh
