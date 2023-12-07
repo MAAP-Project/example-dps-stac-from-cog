@@ -1,6 +1,7 @@
 #!/bin/bash
 # script for DPS algorithm.  
 
+env
 
 basedir=$( cd "$(dirname "$0")" ; pwd -P)
 
